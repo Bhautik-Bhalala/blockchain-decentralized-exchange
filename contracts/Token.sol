@@ -6,9 +6,10 @@ import "hardhat/console.sol";
 contract Token{
     string public name;
     string public symbol;
-
     uint256 public decimals = 18;
     uint256 public totalsupply; 
+
+    mapping (address => uint256) public balanceOf;
 
     constructor(string memory _name , string memory _symbol , uint256 _totalsupply){
         name = _name;
