@@ -20,6 +20,7 @@ describe('Token' , () => {
         accounts = await ethers.getSigners();
         deployer = await accounts[0];
         receiver = await accounts[1];
+        exchange = await accounts[2];
 
     })
 
@@ -94,6 +95,29 @@ describe('Token' , () => {
 
         })
 
+    })
+
+    describe ("Approving Tokens" , () =>{
+        let amount , transaction , result
+
+
+        before(async () =>{
+            amount = tokens(100)
+            transaction = await token.connect(deployer).transfer(exchange.address , amount)
+            result = await transaction.wait()
+        })
+
+        describe("Success" , () =>{
+            it("Allocates an allowance for delegated token spending" , async() =>{
+                expect(await token.allowance(deployer.address,exchange.address)).to.equal(amount)
+            })
+        })
+        describe("Failure" , () =>{
+            // it("Allocates an allowance for delegated token spending" , async() =>{
+
+
+            // })
+        })
 
     })
 

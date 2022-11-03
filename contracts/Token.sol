@@ -31,16 +31,16 @@ contract Token{
     function transfer(address _to , uint256 _value) 
         public 
         returns (bool success)
-        {   
-            require(balanceOf[msg.sender] >= _value );
-            require(_to != address(0));
+    {   
+        require(balanceOf[msg.sender] >= _value );
+        require(_to != address(0));
 
-            balanceOf[msg.sender] = balanceOf[msg.sender] - _value;
-            balanceOf[_to] = balanceOf[_to] + _value;
+        balanceOf[msg.sender] = balanceOf[msg.sender] - _value;
+        balanceOf[_to] = balanceOf[_to] + _value;
 
-            emit Transfer(msg.sender , _to, _value);
-            return true;
-        }
+        emit Transfer(msg.sender , _to, _value);
+        return true;
+    }
 
 
 
