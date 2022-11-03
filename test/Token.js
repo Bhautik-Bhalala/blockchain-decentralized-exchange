@@ -9,10 +9,15 @@ const tokens = (n) => {
 describe('Token' , () => {
 
     let token
+    let accounts
+    let deployer
 
     beforeEach(async () => {
         const Token = await ethers.getContractFactory("Token")
         token = await Token.deploy("Liquidity" , "LIQ" , "1000000")
+
+        accounts = await ethers.getSigners();
+        deployer = await accounts[0].address;
     })
 
     describe("Deployment" , () => {
@@ -20,7 +25,7 @@ describe('Token' , () => {
         const name = "Liquidity"
         const symbol = "LIQ";
         const decimals = "18";
-        const totalsupply = tokens("1000000");
+        const totalSupply = tokens("1000000");
 
 
         it('have the name Liquidity' , async () => {
@@ -36,7 +41,11 @@ describe('Token' , () => {
         })
     
         it('have the total supply 1 million' , async () => {
-            expect(await token.totalsupply()).to.equal(totalsupply)
+            expect(await token.totalSupply()).to.equal(totalSupply)
+        })
+
+        it('assign total supply to deployer' , async () => {
+            expect(await token.balanceOf(deployer)).to.equal(totalSupply)
         })
     })
 
