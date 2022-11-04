@@ -1,6 +1,5 @@
 const { ethers } = require("hardhat")
 const { expect } = require("chai");
-const { TASK_TEST_RUN_SHOW_FORK_RECOMMENDATIONS } = require("hardhat/builtin-tasks/task-names");
 
 const tokens = (n) => {
    return ethers.utils.parseUnits(n.toString(),'ether')
@@ -11,16 +10,16 @@ describe('Token' , () => {
 
     let token
     let accounts
-    let deployer, receiver
+    let deployer, receiver , exchange
 
     beforeEach(async () => {
         const Token = await ethers.getContractFactory("Token")
         token = await Token.deploy("Liquidity" , "LIQ" , "1000000")
 
-        accounts = await ethers.getSigners();
-        deployer = await accounts[0];
-        receiver = await accounts[1];
-        exchange = await accounts[2];
+        accounts = await ethers.getSigners()
+        deployer = accounts[0]
+        receiver = accounts[1]
+        exchange = accounts[2]
 
     })
 
@@ -101,22 +100,32 @@ describe('Token' , () => {
         let amount , transaction , result
 
 
-        before(async () =>{
+        beforeEach(async () =>{
             amount = tokens(100)
-            transaction = await token.connect(deployer).transfer(exchange.address , amount)
+            transaction = await token.connect(deployer).approve(exchange.address , amount)
             result = await transaction.wait()
         })
 
         describe("Success" , () =>{
-            it("Allocates an allowance for delegated token spending" , async() =>{
-                expect(await token.allowance(deployer.address,exchange.address)).to.equal(amount)
+            it("Allocates an allowance for delegated token spending" , async () =>{
+                expect(await token.allowance(deployer.address , exchange.address)).to.equal(amount)
+            })
+
+            it("Emits a approval function" , async() => {
+                const event = result.events[0]
+                expect(event.event).to.equal('Approval')
+    
+                const args = event.args
+                expect(args.owner).to.equal(deployer.address)
+                expect(args.spender).to.equal(exchange.address)
+                expect(args.value).to.equal(amount)
             })
         })
         describe("Failure" , () =>{
-            // it("Allocates an allowance for delegated token spending" , async() =>{
+            it("Rejects invalid Spenders" , async() =>{
+                await expect(token.connect(deployer).approve("0x0000000000000000000000000000000000000000" , amount)).to.be.reverted
 
-
-            // })
+            })
         })
 
     })
