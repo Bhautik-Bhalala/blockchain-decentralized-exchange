@@ -40,16 +40,16 @@ describe('Exchange' , () => {
         let transaction, result
         let amount = tokens(10)
 
-        beforeEach(async () => 
-        {
-            transaction = await token1.connect(user1).approve(exchange.address,amount) 
-            result = await transaction.wait();
-
-            transaction = await exchange.connect(user1).depositToken(token1.address,amount) 
-            result = await transaction.wait();
-        })
-
         describe('Success' , () => {
+            beforeEach(async () => 
+            {
+                transaction = await token1.connect(user1).approve(exchange.address,amount) 
+                result = await transaction.wait();
+    
+                transaction = await exchange.connect(user1).depositToken(token1.address,amount) 
+                result = await transaction.wait();
+            })
+
             it("Tracks the token deposit",async () =>{
                 expect(await token1.balanceOf(exchange.address)).to.equal(amount)
                 expect(await exchange.tokens(token1.address , user1.address)).to.equal(amount)
@@ -70,6 +70,10 @@ describe('Exchange' , () => {
             })
         })
         describe('Failure' , () => {
+            it("Fails when n token are approved",async () => {
+
+                await expect(exchange.connect(user1).depositToken(token1.address,amount)).to.be.reverted
+            })
         })
     
     })
