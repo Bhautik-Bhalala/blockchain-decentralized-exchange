@@ -11,6 +11,8 @@ contract Exchange{
     mapping (uint256 => _Order) public orders;
     uint256 public ordersCount;
     mapping(uint256 => bool) public orderCancelled;
+    mapping(uint256 => bool) public orderFilled;
+
 
     //A way to model the order
     struct _Order{
@@ -38,13 +40,23 @@ contract Exchange{
         uint256 amountGive,
         uint256 timestamp);
 
-        event Cancel(        
+    event Cancel(        
         uint256 id, 
         address user,
         address tokenGet,
         uint256 amountGet,
         address tokenGive,
         uint256 amountGive,
+        uint256 timestamp);
+
+    event Trade(        
+        uint256 id, 
+        address user,
+        address tokenGet,
+        uint256 amountGet,
+        address tokenGive,
+        uint256 amountGive,
+        address creator,
         uint256 timestamp);
 
     constructor(address _feeAccount , uint256 _feePercent){
@@ -147,7 +159,65 @@ contract Exchange{
              _order.tokenGive, 
              _order.amountGive, 
              block.timestamp);
+    }
 
+    ///Executing Orders
 
+    function fillOrder(uint256 _id) public {
+
+        //must be valid order
+        require(_id > 0 && _id <=ordersCount , "Ourder Does not Exists");
+
+        //order cant be filled 
+        require(!orderFilled[_id]);
+
+        // order cnat be canceled 
+        require(!orderCancelled[_id]);
+        //fetchorder
+        _Order storage _order = orders[_id];
+
+        //swappimg tokens 
+        _trade(
+            _order.id, 
+            _order.user, 
+            _order.tokenGet, 
+            _order.amountGet, 
+            _order.tokenGive, 
+            _order.amountGive
+        );
+
+        orderFilled[_order.id] = true;
+
+                //emit event 
+
+    }
+
+    function _trade(
+        uint256 _orderId, address _user , address _tokenGet,
+        uint256 _amountGet , address _tokenGive , uint256 _amountGive
+    ) internal{
+
+        //fees is paid by buyer
+        uint256 _feeAmount = (_amountGet * feePercent) /100;
+
+        //do the trade 
+        tokens[_tokenGet][msg.sender]  = tokens[_tokenGet][msg.sender] - (_amountGet + _feeAmount);
+        tokens[_tokenGet][_user] = tokens[_tokenGet][_user] + _amountGet;
+
+        //charge fees
+        tokens[_tokenGet][feeAccount] = tokens[_tokenGet][feeAccount] + _feeAmount;
+
+        tokens[_tokenGive][_user] = tokens[_tokenGive][_user] - _amountGive;
+        tokens[_tokenGive][msg.sender] = tokens[_tokenGive][msg.sender] + _amountGive;
+
+        emit Trade(
+            _orderId, 
+             msg.sender, 
+             _tokenGet, 
+             _amountGet, 
+             _tokenGive, 
+             _amountGive,
+             _user, 
+             block.timestamp);
     }
 }
