@@ -80,13 +80,8 @@ contract Token{
 
         allowance[_from][msg.sender] = allowance[_from][msg.sender] - _value;
         
-
         _transfer(_from, _to, _value);
 
         return true;
     }
-
-
-
-
 }
