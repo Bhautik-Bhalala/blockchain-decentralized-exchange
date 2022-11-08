@@ -1,4 +1,4 @@
-#***PROGRESS :***
+#***PROGRESS : Smart Contract ***
 
   ***Exchange*** <br>
 &ensp;    **Deployment**<br>
@@ -33,11 +33,11 @@
 &emsp;&emsp;          ✔ Rejects invalid order ids<br>
 &emsp;&emsp;          ✔ Rejects unauthorised cancellations<br>
 &ensp;      **Filling orders**<br>
-&emsp;        **Success**<br>
+&emsp;&ensp;        **Success**<br>
 &emsp;&emsp;          ✔ Executes the trade and charge fees<br>
 &emsp;&emsp;          ✔ Update filled orders<br>
 &emsp;&emsp;          ✔ Emits a Trade EVENT<br>
-&emsp;        **Failure**<br>
+&emsp;&ensp;        **Failure**<br>
 &emsp;&emsp;          ✔ rejects invalid order id<br>
 &emsp;&emsp;          ✔ rejects already filled orders <br>
 &emsp;&emsp;          ✔ rejects already filled orders <br>
