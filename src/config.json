@@ -1,16 +1,16 @@
 {
     "31337": {
       "exchange": {
-        "address": "0x5f3f1dBD7B74C6B46e8c44f98792A1dAf8d69154"
+        "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
       },
       "LIQ": {
-        "address": "0x809d550fca64d94Bd9F66E60752A544199cfAC3D"
+        "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
       },
       "mETH": {
-        "address": "0x4c5859f0F772848b2D91F1D83E2Fe57935348029"
+        "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
       },
       "SOL": {
-        "address": "0x1291Be112d480055DaFd8a610b7d1e203891C274"
+        "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
       }
     }
   }
