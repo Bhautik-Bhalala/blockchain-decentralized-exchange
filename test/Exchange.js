@@ -223,8 +223,7 @@ describe('Exchange' , () => {
             result = await transaction.wait();
 
             transaction = await exchange.connect(user1).makeOrder(
-                token2.address , amount, token1.address , amount
-                );
+                token2.address , amount, token1.address , amount);
             result = await transaction.wait();
         })
         describe("Cancelling orders" ,  () =>{
@@ -241,7 +240,6 @@ describe('Exchange' , () => {
                 {
                     const event = result.events[0]
                     expect(event.event).to.equal('Cancel')
-        
                     const args = event.args
                     expect(args.id).to.equal(1)
                     expect(args.user).to.equal(user1.address)
