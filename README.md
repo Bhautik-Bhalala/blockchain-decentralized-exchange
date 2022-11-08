@@ -1,6 +1,6 @@
 # ***PROGRESS : Smart Contract***
 
-  ***Exchange*** <br>
+###  ***Exchange*** <br>
 &ensp;    **Deployment**<br>
 &emsp;&emsp;      ✔ Tracks the FEE account<br>
 &emsp;&emsp;      ✔ Tracks the FEE percent<br>
@@ -42,7 +42,7 @@
 &emsp;&emsp;          ✔ rejects already filled orders <br>
 &emsp;&emsp;          ✔ rejects already filled orders <br>
 
-  ***Token***<br>
+###  ***Token***<br>
 &ensp;    **Deployment**<br>
 &emsp;&emsp;      ✔ have the name Liquidity<br>
 &emsp;&emsp;      ✔ have the Symbol LIQ<br>
