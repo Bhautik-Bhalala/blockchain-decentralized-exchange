@@ -1,4 +1,4 @@
-#***PROGRESS : Smart Contract ***
+# ***PROGRESS : Smart Contract***
 
   ***Exchange*** <br>
 &ensp;    **Deployment**<br>
