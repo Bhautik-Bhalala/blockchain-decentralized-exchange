@@ -1,4 +1,30 @@
+import dapp from '../assets/dapp.svg'
+import eth from '../assets/eth.svg'
+import { useEffect } from 'react'
+
+import { useSelector , useDispatch} from 'react-redux'
+
+import { loadBalances } from '../store/interactions'
+
+
+  
 const Balance = () => {
+    const tokens = useSelector(state => state.tokens.contracts)
+    const account = useSelector(state => state.provider.account)
+    const exchange = useSelector(state => state.exchange.contract)
+    const exchangeBalances = useSelector(state => state.exchange.balances)
+
+    const dispatch = useDispatch()
+
+    const symbols = useSelector(state => state.tokens.symbols)
+
+    const tokenBalances = useSelector(state => state.tokens.balances)
+
+    useEffect(() => {
+        if(exchange && tokens[0] && tokens[1] && account){
+            loadBalances(exchange , tokens, account, dispatch)
+        }
+    }, [exchange , tokens , account])
 
     return (
       <div className='component exchange__transfers'>
@@ -14,7 +40,10 @@ const Balance = () => {
   
         <div className='exchange__transfers--form'>
           <div className='flex-between'>
-  
+            <p><small>Token</small><br /><img src ={dapp} alt = "Token Logo" />{symbols && symbols[0]}</p>
+            <p><small>Wallet</small><br />{tokenBalances && tokenBalances[0]}</p>
+            <p><small>Exchange</small><br />{exchangeBalances && exchangeBalances[0]}</p>
+
           </div>
   
           <form>
@@ -33,7 +62,10 @@ const Balance = () => {
   
         <div className='exchange__transfers--form'>
           <div className='flex-between'>
-  
+          <p><small>Token</small><br /><img src ={eth} alt = "Token Logo" />{symbols && symbols[1]}</p>
+          <p><small>Wallet</small><br />{tokenBalances && tokenBalances[1]}</p>
+          <p><small>Exchange</small><br />{exchangeBalances && exchangeBalances[1]}</p>
+
           </div>
   
           <form>
