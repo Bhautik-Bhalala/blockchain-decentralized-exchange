@@ -28,6 +28,9 @@ function App() {
         window.ethereum.on('accountsChanged',async () =>{
           await loadAccount(provider, dispatch)
         })
+        window.ethereum.on('chainChanged', () => {
+          window.location.reload()
+        })
     
         // Load token smart contracts
         const LIQ = config[chainId].LIQ
