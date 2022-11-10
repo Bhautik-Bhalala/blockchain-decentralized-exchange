@@ -1,9 +1,20 @@
 import logo from '../assets/logo.png'
 import { useSelector } from 'react-redux';
+import Blockies from 'react-blockies';
+import { useDispatch } from 'react-redux';
+import {
+  loadAccount,
+} from '../store/interactions';
 
 const Navbar = () => {
+    const provider = useSelector(state=> state.provider.connection)
     const account = useSelector(state => state.provider.account)
     const balance = useSelector(state => state.provider.balance)
+    const dispatch = useDispatch()
+
+    const connectHandler = async () =>{
+        await loadAccount(provider, dispatch)
+    }
 
     return(
       <div className='exchange__header grid'>
@@ -15,10 +26,9 @@ const Navbar = () => {
   
         <div className='exchange__header--networks flex'>
 
-  
+
         </div>
-        
-  
+
         <div className='exchange__header--account flex'>
 
             { balance ? 
@@ -28,11 +38,19 @@ const Navbar = () => {
             {account ? 
                 (<a href = "">
                     {account.slice(0,5)+'...'+account.slice(38,42)}
-                </a>) 
-                : (<a href = ""></a>)
+                    <Blockies>
+                        account ={account}
+                        size= {10}
+                        scale = {3}
+                        color = "#2187D0"
+                        bqColor="#F1F2F9"
+                        spotColor="#767F92"
+                        className = "identicon"
+                    </Blockies>
+                </a>
+                ) 
+                : (<button className = "button" onClick={connectHandler}>Connect</button>)
             }
-
-            
         </div>
       </div>
     )

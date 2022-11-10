@@ -23,8 +23,11 @@ function App() {
         // Fetch current network's chainId (e.g. hardhat: 31337, kovan: 42)
         const chainId = await loadNetwork(provider, dispatch)
     
-        // Fetch current account & balance from Metamask
-        await loadAccount(provider, dispatch)
+        // Fetch current account & balance from Metamask when Changed
+        // await loadAccount(provider, dispatch)
+        window.ethereum.on('accountsChanged',async () =>{
+          await loadAccount(provider, dispatch)
+        })
     
         // Load token smart contracts
         const LIQ = config[chainId].LIQ
