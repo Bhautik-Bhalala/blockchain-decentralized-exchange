@@ -1,14 +1,14 @@
 import dapp from '../assets/dapp.svg'
 import eth from '../assets/eth.svg'
-import { useEffect } from 'react'
+import { useEffect , useState} from 'react'
 
 import { useSelector , useDispatch} from 'react-redux'
 
 import { loadBalances } from '../store/interactions'
-
-
   
 const Balance = () => {
+
+  const [token1TransferAmount ,  setToken1TransferAmount] = useState(0)
     const tokens = useSelector(state => state.tokens.contracts)
     const account = useSelector(state => state.provider.account)
     const exchange = useSelector(state => state.exchange.contract)
@@ -19,6 +19,20 @@ const Balance = () => {
     const symbols = useSelector(state => state.tokens.symbols)
 
     const tokenBalances = useSelector(state => state.tokens.balances)
+
+    const amountHandler =(e,token)=>{
+      if(token.address === tokens[0].address){
+        setToken1TransferAmount(e.target.value)
+      }
+      console.log({token1TransferAmount})
+    }
+
+    const depositHandler = (e,token) =>{
+      e.preventDefault()
+      if(token.address === tokens[0].address){
+
+      }
+    }
 
     useEffect(() => {
         if(exchange && tokens[0] && tokens[1] && account){
@@ -46,12 +60,12 @@ const Balance = () => {
 
           </div>
   
-          <form>
-            <label htmlFor="token0"></label>
-            <input type="text" id='token0' placeholder='0.0000' />
+          <form onSubmit={(e) => depositHandler(e,tokens[0])}>
+            <label htmlFor="token0">{symbols && symbols [0]} Amount</label>
+            <input type="text" id='token0' placeholder='0.0000' onChange={(e) =>amountHandler(e , tokens[0])}/>
   
             <button className='button' type='submit'>
-              <span></span>
+              <span>DEPOSIT</span>
             </button>
           </form>
         </div>
@@ -69,7 +83,7 @@ const Balance = () => {
           </div>
   
           <form>
-            <label htmlFor="token1"></label>
+            <label htmlFor="token1">{symbols && symbols[1]} Amount</label>
             <input type="text" id='token1' placeholder='0.0000'/>
   
             <button className='button' type='submit'>
