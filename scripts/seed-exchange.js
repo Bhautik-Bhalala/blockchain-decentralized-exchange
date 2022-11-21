@@ -24,8 +24,8 @@ async function main() {
   const mETH = await ethers.getContractAt('Token', config[chainId].mETH.address)
   console.log(`mETH Token fetched: ${mETH.address}\n`)
 
-  const mDAI = await ethers.getContractAt('Token', config[chainId].mDAI.address)
-  console.log(`mDAI Token fetched: ${mDAI.address}\n`)
+  const SOL = await ethers.getContractAt('Token', config[chainId].SOL.address)
+  console.log(`SOL Token fetched: ${SOL.address}\n`)
 
   // Fetch the deployed exchange
   const exchange = await ethers.getContractAt('Exchange', config[chainId].exchange.address)
